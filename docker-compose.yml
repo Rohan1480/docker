@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:8.0.1
+    volumes:
+      - student-db-volumn1:/var/lib/mysql/
+    environment:
+      DATABASE_HOST: docker-mysql
+      DATABASE_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: studentDB
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: root
+  
+     
+
+  app:
+   image: rohan2022/dockerdemoimageaug:0.0.1
+   ports:
+    - 8080:8080
+   environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/studentDB?autoReconnect=true&allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+   depends_on:
+      - db
+  
+volumes:
+  student-db-volumn1:   
+      
